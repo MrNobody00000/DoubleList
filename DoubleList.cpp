@@ -10,10 +10,10 @@ public:
 
 template<class Ttype> 
 class Dlist{
-    Node *Head;
-    Node *Tail;
 public:
-    DList():Head(NULL),Tail(NULL){};
+    Node* Head;
+    Node* Tail;
+    DList()<Ttype>:Head(NULL),Tail(NULL){};
     ~Dlist();
     void show();
     void add(Ttype data);
