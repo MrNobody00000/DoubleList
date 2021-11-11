@@ -1,77 +1,96 @@
 #include <iostream>
 
-template<class Ttype>
-class Node{
-public:
-    Ttype x;
-    Node *next;
-    Node *prev;
-};
+template <typename Ttype>
+class Dlist
+{
+private:
+    template <class T>
+    class listElem
+    {
+    public:
+        Ttype data;
+        listElem *ptrNext;
+        listElem *ptrPrev;
+        listElem(Ttype data, listElem *ptrNext = nullptr, listElem *ptrPrev = nullptr)
+        {
+            this->data = data;
+            this->ptrNext = ptrNext;
+            this->ptrPrev = ptrPrev;
+        }
+    };
 
-template<class Ttype> 
-class Dlist{
+    listElem<Ttype> *HEAD;
+    listElem<Ttype> *TAIL;
+    int size;
+
 public:
-    Node* Head;
-    Node* Tail;
-    DList()<Ttype>:Head(NULL),Tail(NULL){};
-    ~Dlist();
+    Dlist();
+    //~Dlist();
+    void push_back(int a);
     void show();
-    void add(Ttype data);
-
 };
 
-template<class Ttype> 
-Dlist<Ttype>::~Dlist(){
-    while(Head){
-        Tail = Head->next;
-        delete Head;
-        Head = Tail;
+template <class Ttype>
+void Dlist<Ttype>::push_back(int a)
+{
+    //listElem *tmp = new listElem;
+    if (size == 0)
+    {
+        size++;
+        HEAD = new listElem<Ttype>(a);
     }
-}
-
-template<class Ttype>
-void Dlist<Ttype>::add(Ttype data){
-    Node *temp = new Node;
-    temp->next = NULL;
-    temp->x = data;
-    if(Head != NULL){   // mb if(Head)
-        temp->prev = NULL;
-        Tail->next = temp;
-        Tail = temp;
+    else if (size == 1)
+    {   
+        size++;
+        listElem<Ttype> *current = new listElem<Ttype>(a);
+        HEAD->ptrNext = current;
+        current->ptrPrev = HEAD;
+        TAIL = current;
     }
     else {
-        temp->prev = NULL;
-        Head = Tail = temp;
+        size++;
+        listElem<Ttype> *current = new listElem<Ttype>(a);
+        current->ptrPrev = TAIL;
+        TAIL->ptrNext = current;
+        TAIL = current;
     }
 }
 
-template<class Ttype>
-void Dlist<Ttype>::show(){
-    Node *temp=Tail; 
-    while (temp != NULL){
-        cout << temp->x << " ";
-        temp = temp->Prev;  
-    }
-    cout << "\n";
-
-    temp = Head;
-    while (temp != NULL) {
-        cout << temp->x << " ";
-        temp = temp->Next;
-    }
-    cout << "\n";
-}
-
-int main ()
+template <class Ttype>
+Dlist<Ttype>::Dlist()
 {
+    size = 0;
+    HEAD = nullptr;
+    TAIL = nullptr;
+}
 
- Dlist<int> lst; //Объявляем переменную, тип которой есть список
- lst.add(100); //Добавляем в список элементы
- lst.add(200);
- lst.add(900);
- lst.add(888);
- 
- lst.show(); //Отображаем список на экране
+template <class Ttype>
+void Dlist<Ttype>::show(){
+    for(listElem<Ttype> *ptr = HEAD; ptr!=TAIL; ptr = ptr->ptrNext){
+        std::cout<<ptr<<" "<<ptr->data<<'\n';
+    }
+std::cout<<TAIL<<" "<<TAIL->data<<'\n';
+
+}
+
+int main()
+{
+    Dlist<int> obj;
+    obj.push_back(13);
+    obj.push_back(7);
+    obj.push_back(3);
+    obj.push_back(3);
+    obj.push_back(44);
+
+    obj.show();
+
+    //Dlist<int> lst; //Объявляем переменную, тип которой есть список
+    //lst.add(100); //Добавляем в список элементы
+    //lst.add(200);
+    //lst.add(900);
+    //lst.add(888);
+
+    //lst.show(); //Отображаем список на экране
 
     return 0;
 }

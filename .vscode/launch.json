@@ -5,24 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Запустить",
+            "name": "g++.exe - Сборка и отладка активного файла",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.exe",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "C:\\MinGW\\mingw64\\bin",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "/path/to/gdb",
+            "miDebuggerPath": "C:\\MinGW\\mingw64\\bin\\gdb.exe",
             "setupCommands": [
                 {
                     "description": "Включить автоматическое форматирование для gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "C/C++: g++.exe сборка активного файла"
         }
     ]
 }
