@@ -28,12 +28,12 @@ public:
     //~Dlist();
     void push_back(int a);
     void show();
+    void pop_back();
 };
 
 template <class Ttype>
 void Dlist<Ttype>::push_back(int a)
 {
-    //listElem *tmp = new listElem;
     if (size == 0)
     {
         size++;
@@ -57,6 +57,24 @@ void Dlist<Ttype>::push_back(int a)
 }
 
 template <class Ttype>
+void Dlist<Ttype>::pop_back(){
+    if(size>1){
+    listElem<Ttype> *tmp = TAIL;
+    TAIL = TAIL->ptrPrev;
+    TAIL->ptrNext = nullptr;
+    size--;
+    delete tmp;
+    }
+    else if(size == 1){
+         listElem<Ttype> *tmp = TAIL;
+         TAIL = nullptr;
+         HEAD = nullptr;
+         size--;         
+         delete tmp;    
+    }
+    else std::cout<<"Список пуст\n";
+}
+template <class Ttype>
 Dlist<Ttype>::Dlist()
 {
     size = 0;
@@ -66,11 +84,13 @@ Dlist<Ttype>::Dlist()
 
 template <class Ttype>
 void Dlist<Ttype>::show(){
-    for(listElem<Ttype> *ptr = HEAD; ptr!=TAIL; ptr = ptr->ptrNext){
-        std::cout<<ptr<<" "<<ptr->data<<'\n';
+    if(size!=0){
+        for(listElem<Ttype> *ptr = HEAD; ptr!=TAIL; ptr = ptr->ptrNext){
+            std::cout<<ptr<<" "<<ptr->data<<'\n';
+        }
+        if(TAIL!=nullptr) std::cout<<TAIL<<" "<<TAIL->data<<'\n';
     }
-std::cout<<TAIL<<" "<<TAIL->data<<'\n';
-
+    else std::cout<<"Список пуст\n";
 }
 
 int main()
@@ -81,7 +101,12 @@ int main()
     obj.push_back(3);
     obj.push_back(3);
     obj.push_back(44);
-
+    obj.pop_back();
+    obj.pop_back();
+    obj.pop_back();
+    obj.pop_back();
+    obj.pop_back();
+    obj.pop_back();
     obj.show();
 
     //Dlist<int> lst; //Объявляем переменную, тип которой есть список
