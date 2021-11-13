@@ -26,18 +26,20 @@ private:
 public:
     Dlist();
     //~Dlist();
-    void push_back(int a);
+    void push_back(Ttype a);
     void show();
     void pop_back();
+    void insert(int pos,Ttype obj);
 };
 
 template <class Ttype>
-void Dlist<Ttype>::push_back(int a)
+void Dlist<Ttype>::push_back(Ttype a)
 {
     if (size == 0)
     {
         size++;
         HEAD = new listElem<Ttype>(a);
+        TAIL = HEAD;    //NEW
     }
     else if (size == 1)
     {   
@@ -56,6 +58,7 @@ void Dlist<Ttype>::push_back(int a)
     }
 }
 
+
 template <class Ttype>
 void Dlist<Ttype>::pop_back(){
     if(size>1){
@@ -73,6 +76,54 @@ void Dlist<Ttype>::pop_back(){
          delete tmp;    
     }
     else std::cout<<"Список пуст\n";
+}
+
+template<class Ttype>
+void Dlist<Ttype>::insert(int pos,Ttype obj){
+    if (pos == size){
+        this->push_back(obj);
+    }
+    else if(pos > 0 && pos < size){
+        if(size - 1 - pos < pos)
+        {   //FROM TAIL
+            listElem<Ttype> *tmpFirst = TAIL;
+            listElem<Ttype> *tmpSec;
+            listElem<Ttype> *current = new listElem<Ttype>(obj);
+            for (int i=0;i<size - 1 - pos;i++){
+                tmpFirst = tmpFirst->ptrPrev;
+            }
+            tmpSec = tmpFirst->ptrPrev;
+            current->ptrNext = tmpFirst;
+            current->ptrPrev = tmpSec;  
+            tmpSec->ptrNext = current;
+            tmpFirst->ptrPrev = current;
+            size++;
+        }
+        else 
+        {
+            listElem<Ttype> *tmpFirst = HEAD;
+            listElem<Ttype> *tmpSec;
+            listElem<Ttype> *current = new listElem<Ttype>(obj);
+            for (int i=0;i<pos;i++){
+                tmpFirst = tmpFirst->ptrNext;
+            }
+            tmpSec = tmpFirst->ptrPrev;
+            current->ptrNext = tmpFirst;
+            current->ptrPrev = tmpSec;  
+            tmpSec->ptrNext = current;
+            tmpFirst->ptrPrev = current;
+            size++;
+        }
+    }
+    else if(pos == 0){
+        size++;
+        listElem<Ttype> *current = new listElem<Ttype>(obj);
+        current->ptrPrev = nullptr;
+        current->ptrNext = HEAD;
+        HEAD->ptrPrev = current;
+        HEAD = current;
+    }
+    else std::cout<<"out of range\n\n";
 }
 template <class Ttype>
 Dlist<Ttype>::Dlist()
@@ -96,17 +147,21 @@ void Dlist<Ttype>::show(){
 int main()
 {
     Dlist<int> obj;
+    //HERE
     obj.push_back(13);
     obj.push_back(7);
+    //HERE
     obj.push_back(3);
+    //HERE
     obj.push_back(3);
     obj.push_back(44);
-    obj.pop_back();
-    obj.pop_back();
-    obj.pop_back();
-    obj.pop_back();
-    obj.pop_back();
-    obj.pop_back();
+
+    obj.insert(0,555);
+    obj.insert(4,555);
+    obj.insert(6,555);
+
+    obj.insert(10,555);
+
     obj.show();
 
     //Dlist<int> lst; //Объявляем переменную, тип которой есть список
