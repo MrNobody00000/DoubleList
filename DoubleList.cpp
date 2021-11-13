@@ -39,7 +39,7 @@ void Dlist<Ttype>::push_back(Ttype a)
     {
         size++;
         HEAD = new listElem<Ttype>(a);
-        TAIL = HEAD;    //NEW
+        TAIL = HEAD;    
     }
     else if (size == 1)
     {   
@@ -85,7 +85,7 @@ void Dlist<Ttype>::insert(int pos,Ttype obj){
     }
     else if(pos > 0 && pos < size){
         if(size - 1 - pos < pos)
-        {   //FROM TAIL
+        {   
             listElem<Ttype> *tmpFirst = TAIL;
             listElem<Ttype> *tmpSec;
             listElem<Ttype> *current = new listElem<Ttype>(obj);
@@ -147,30 +147,17 @@ void Dlist<Ttype>::show(){
 int main()
 {
     Dlist<int> obj;
-    //HERE
     obj.push_back(13);
     obj.push_back(7);
-    //HERE
     obj.push_back(3);
-    //HERE
     obj.push_back(3);
     obj.push_back(44);
 
     obj.insert(0,555);
     obj.insert(4,555);
     obj.insert(6,555);
-
     obj.insert(10,555);
 
     obj.show();
-
-    //Dlist<int> lst; //Объявляем переменную, тип которой есть список
-    //lst.add(100); //Добавляем в список элементы
-    //lst.add(200);
-    //lst.add(900);
-    //lst.add(888);
-
-    //lst.show(); //Отображаем список на экране
-
     return 0;
 }
