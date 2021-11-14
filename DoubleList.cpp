@@ -145,13 +145,12 @@ Ttype& Dlist<Ttype>::operator[](int pos){
         exit(a);
 
     }
-    if(pos >= 0 && pos < size){
-        if(pos > (size-1)/2 ){
-            listElem<Ttype> *tmp = TAIL;
-            for (int i=0;i<size - 1 - pos;i++){
-                tmp = tmp->ptrPrev;
-            }
-            return tmp->data;
+    if(pos > (size-1)/2 ){
+        listElem<Ttype> *tmp = TAIL;
+        for (int i=0;i<size - 1 - pos;i++){
+            tmp = tmp->ptrPrev;
+        }
+        return tmp->data;
         }
         else {
             listElem<Ttype> *tmp = HEAD;
@@ -159,9 +158,7 @@ Ttype& Dlist<Ttype>::operator[](int pos){
                 tmp = tmp->ptrNext;
             }
             return tmp->data;
-        }
-    }
-      
+        }          
 }
 
 template <class Ttype>
