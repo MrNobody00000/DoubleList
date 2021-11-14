@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 
 template <typename Ttype>
 class Dlist
@@ -30,6 +31,7 @@ public:
     void show();
     void pop_back();
     void insert(int pos,Ttype obj);
+    Ttype& operator[](int pos);
 };
 
 template <class Ttype>
@@ -133,6 +135,35 @@ Dlist<Ttype>::Dlist()
     TAIL = nullptr;
 }
 
+template<class Ttype>
+Ttype& Dlist<Ttype>::operator[](int pos){
+    try{
+        if(pos<0 || pos >=size) throw 1;
+    }
+    catch(int a) {
+        std::cout<<"Exception: out of range\n\n";
+        exit(a);
+
+    }
+    if(pos >= 0 && pos < size){
+        if(pos > (size-1)/2 ){
+            listElem<Ttype> *tmp = TAIL;
+            for (int i=0;i<size - 1 - pos;i++){
+                tmp = tmp->ptrPrev;
+            }
+            return tmp->data;
+        }
+        else {
+            listElem<Ttype> *tmp = HEAD;
+            for (int i=0;i<pos;i++){
+                tmp = tmp->ptrNext;
+            }
+            return tmp->data;
+        }
+    }
+      
+}
+
 template <class Ttype>
 void Dlist<Ttype>::show(){
     if(size!=0){
@@ -157,7 +188,9 @@ int main()
     obj.insert(4,555);
     obj.insert(6,555);
     obj.insert(10,555);
-
+    obj[5] = 111;
+    //std::cout<<obj[20];
+    //obj[20] = 111;
     obj.show();
     return 0;
 }
