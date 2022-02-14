@@ -28,6 +28,7 @@ public:
     Dlist();
     //~Dlist();
     void push_back(Ttype a);
+    void push_front(Ttype a);
     void show();
     void pop_back();
     void insert(int pos,Ttype obj);
@@ -60,6 +61,31 @@ void Dlist<Ttype>::push_back(Ttype a)
     }
 }
 
+template <class Ttype>
+void Dlist<Ttype>::push_front(Ttype a)
+{
+     if (size == 0)
+    {
+        size++;
+        HEAD = new listElem<Ttype>(a);
+        TAIL = HEAD;    
+    }
+    else if (size == 1)
+    {   
+        size++;
+        listElem<Ttype> *current = new listElem<Ttype>(a);
+        HEAD->ptrPrev = current;
+        current->ptrNext = HEAD;
+        HEAD = current;
+    }
+    else {
+        size++;
+        listElem<Ttype> *current = new listElem<Ttype>(a);
+        current->ptrNext = HEAD;
+        HEAD->ptrPrev = current;
+        HEAD = current;
+    }
+}
 
 template <class Ttype>
 void Dlist<Ttype>::pop_back(){
@@ -125,7 +151,7 @@ void Dlist<Ttype>::insert(int pos,Ttype obj){
         HEAD->ptrPrev = current;
         HEAD = current;
     }
-    else std::cout<<"out of range\n\n";
+    //else std::cout<<"out of range\n\n";
 }
 template <class Ttype>
 Dlist<Ttype>::Dlist()
@@ -138,11 +164,26 @@ Dlist<Ttype>::Dlist()
 template<class Ttype>
 Ttype& Dlist<Ttype>::operator[](int pos){
     try{
-        if(pos<0 || pos >=size) throw 1;
+        if(pos >=size) throw 1;
+        else if (pos < 0) throw 2;
     }
     catch(int a) {
-        std::cout<<"Exception: out of range\n\n";
-        exit(a);
+        switch (a)
+        {
+        case 1:
+            std::cout<<"Exception: out of range, list pushed back by 0's to index\n\n";
+            while(pos>=size) this->push_back(Ttype());
+            break;
+        case 2:
+            std::cout<<"Exception: out of range, list pushed front by 0's to index\n\n";
+            while(pos < 0){
+                this->push_front(Ttype());
+                pos++;
+            }
+            break;
+        }
+
+        //exit(a);
 
     }
     if(pos > (size-1)/2 ){
@@ -152,12 +193,12 @@ Ttype& Dlist<Ttype>::operator[](int pos){
         }
         return tmp->data;
         }
-        else {
-            listElem<Ttype> *tmp = HEAD;
-            for (int i=0;i<pos;i++){
-                tmp = tmp->ptrNext;
-            }
-            return tmp->data;
+    else {
+        listElem<Ttype> *tmp = HEAD;
+        for (int i=0;i<pos;i++){
+            tmp = tmp->ptrNext;
+        }
+        return tmp->data;
         }          
 }
 
@@ -186,6 +227,9 @@ int main()
     obj.insert(6,555);
     obj.insert(10,555);
     obj[5] = 111;
+    obj[11] = 0;
+    obj[-1] = 4;
+    obj.push_front(13);
     //std::cout<<obj[20];
     //obj[20] = 111;
     obj.show();
